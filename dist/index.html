@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Document</title><style>body{
+		width: 375px;
+		overflow-x: hidden;
+	}
+		.ui-pic{
+			/*margin: 0 20%;*/
+			width: 375px;
+			height: auto;
+			display: flex;
+			justify-content: space-between;
+		}</style></head><body><div ng-app="myapp"><div ng-controller="myctrl"><input type="text" ng-model="search"><div class="ui-pic" ng-repeat="x in images|filter:{name:search}"><h3>{{x.name}}</h3><img data-ng-src="{{x.url}}" alt="" style="width: 100%;height: 100%"></div></div></div></body><script src="angular.js"></script><script>// var app = angular.module('myapp',[])
+	// 	.controller('myctrl', ['$scope', '$http' ,function(scope,http){
+	// 		http({
+	// 			url:'./data.json',
+	// 			method:'GET',
+	// 		}).success(function successCallback(req){
+	// 			scope.records = req;
+	// 			console.log(req);
+	// 			// var dataes = JSON.stringify(data) 
+	// 			console.log(req[0].name)
+	// 		})
+	// 	}])
+
+	var app = angular.module('myapp',[])
+		.service('imageService',function($http){
+			return{
+				getImages:function(){
+					return $http.get('./data.json',{ responseType:"json"})
+				}
+			}
+		})
+		.controller('myctrl',function($scope,imageService){
+			imageService.getImages().success(function(result){
+				$scope.images = result
+			})
+		})
+
+		// var a = function(){
+		// 	return  b=1;
+		// }
+		// a();
+		// a
+		// console.log(a)
+		// console.log(a())</script></html>
